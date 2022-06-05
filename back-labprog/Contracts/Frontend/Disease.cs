@@ -1,4 +1,5 @@
 using back_labprog.Contracts.Database;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace back_labprog.Contracts.Frontend;
@@ -17,6 +18,7 @@ public class Disease
         {
             Name = d.Name,
             Rate = d.Rate,
-            Description = d.Description
+            Description = d.Description,
+            Id = ObjectId.GenerateNewId()
         };
 }
