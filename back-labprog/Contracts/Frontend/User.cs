@@ -1,4 +1,5 @@
 using back_labprog.Contracts.Database;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace back_labprog.Contracts.Frontend;
@@ -27,6 +28,7 @@ public class User
             LastName = u.Lastname,
             Email = u.Email,
             Password = u.Password,
-            Token = u.Token
+            Token = u.Token,
+            Id = ObjectId.GenerateNewId()
         };
 }
