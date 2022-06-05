@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "back-labprog", "back-labprog\back-labprog.csproj", "{FFC0F0C6-C37E-49F9-BF0C-9C57902D153E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFC0F0C6-C37E-49F9-BF0C-9C57902D153E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC0F0C6-C37E-49F9-BF0C-9C57902D153E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC0F0C6-C37E-49F9-BF0C-9C57902D153E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC0F0C6-C37E-49F9-BF0C-9C57902D153E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
