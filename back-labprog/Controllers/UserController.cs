@@ -1,5 +1,6 @@
 using back_labprog.Business;
 using back_labprog.Contracts.Frontend;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 namespace back_labprog.Controllers;
 
@@ -14,6 +15,7 @@ public class UserController : ControllerBase
         _userBO = userBO;
     }
 
+    [EnableCors]
     [HttpPost("login")]
     public ActionResult Login([FromBody] User userCredentials)
     {
@@ -22,6 +24,7 @@ public class UserController : ControllerBase
         return Unauthorized();
     }
 
+    [EnableCors]
     [HttpPost("register")]
     public ActionResult Register([FromBody] User userCredentials)
     {
