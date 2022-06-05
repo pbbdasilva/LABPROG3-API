@@ -2,11 +2,12 @@ using back_labprog.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var policy = "CustomPolicy";
 // Add services to the container.
 builder.Services.AddScoped<IDiseaseBO, DiseaseBO>();
 builder.Services.AddScoped<IUserBO, UserBO>();
 builder.Services.AddControllers();
-builder.Services.AddCors(options => options.AddPolicy(name: "CustomPolicy", policy => { policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod(); }));
+builder.Services.AddCors(options => options.AddPolicy(name: policy, policy => { policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod(); }));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors(policy);
 
 app.UseHttpsRedirection();
 
