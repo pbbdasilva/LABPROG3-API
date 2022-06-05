@@ -10,8 +10,8 @@ public class UserDTO
     public ObjectId? Id { get; set; }
     [BsonElement("name")]
     public string? Name { get; set; }
-    [BsonElement("surname")]
-    public string? Surname { get; set; }
+    [BsonElement("lastname")]
+    public string? LastName { get; set; }
     [BsonElement("email")]
     public string Email { get; set; }
     [BsonElement("password")]
@@ -24,7 +24,7 @@ public class UserDTO
         return new User
         {
             Name = this.Name,
-            Surname = this.Surname,
+            Lastname = this.LastName,
             Password = this.Password,
             Email = this.Email,
             Token = this.Token

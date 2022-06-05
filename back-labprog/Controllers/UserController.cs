@@ -14,7 +14,7 @@ public class UserController : ControllerBase
         _userBO = userBO;
     }
 
-    [HttpGet("login")]
+    [HttpPost("login")]
     public ActionResult Login([FromBody] User userCredentials)
     {
         var response = _userBO.VerifyLogin(userCredentials);
