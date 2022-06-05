@@ -9,7 +9,7 @@ public class UserDTO
     [BsonId]
     public ObjectId? Id { get; set; }
     [BsonElement("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     [BsonElement("email")]
     public string Email { get; set; }
     [BsonElement("password")]

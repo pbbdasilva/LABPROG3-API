@@ -6,7 +6,7 @@ namespace back_labprog.Contracts.Frontend;
 public class User
 {
     [BsonElement("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     [BsonElement("email")]
     public string Email { get; set; }
