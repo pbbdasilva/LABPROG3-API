@@ -19,7 +19,8 @@ public class UserBO : IUserBO
     public User? VerifyLogin(User userCredentials)
     {
         var collection = GetCollection();
-        var response = collection.AsQueryable().FirstOrDefault(u => u == (UserDTO) userCredentials);
+        var response = collection.AsQueryable().FirstOrDefault(u => u.Email == userCredentials.Email && 
+                                                                    u.Password == userCredentials.Password);
         return response?.ConvertToUser();
     }
 
