@@ -8,6 +8,9 @@ public class User
     [BsonElement("name")]
     public string? Name { get; set; }
     
+    [BsonElement("surname")]
+    public string? Surname { get; set; }
+    
     [BsonElement("email")]
     public string Email { get; set; }
     
@@ -21,6 +24,7 @@ public class User
         => new UserDTO
         {
             Name = u.Name,
+            Surname = u.Surname,
             Email = u.Email,
             Password = u.Password,
             Token = u.Token
