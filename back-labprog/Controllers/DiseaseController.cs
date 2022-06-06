@@ -10,9 +10,11 @@ namespace back_labprog.Controllers;
 public class DiseaseController : ControllerBase
 {
     private readonly IDiseaseBO _diseaseBO;
-    public DiseaseController(IDiseaseBO diseaseBO)
+    private readonly IMapBO _mapBO;
+    public DiseaseController(IDiseaseBO diseaseBO, IMapBO mapBO)
     {
         _diseaseBO = diseaseBO;
+        _mapBO = mapBO;
     }
 
     [EnableCors]
@@ -37,5 +39,13 @@ public class DiseaseController : ControllerBase
         var response = _diseaseBO.DeleteDisease(disease);
         if (!response) return NotFound();
         return Ok();
+    }
+    
+    [EnableCors]
+    [HttpPost("mapfilter")]
+    public IEnumerable<DiseaseOccurrence> FilterOccurrences([FromBody] FilterRequest filter)
+    {
+        var occurrences = _mapBO.GetOccurrences(filter);
+        return occurrences;
     }
 }

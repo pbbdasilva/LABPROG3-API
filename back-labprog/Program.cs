@@ -6,6 +6,7 @@ var policy = "CustomPolicy";
 // Add services to the container.
 builder.Services.AddScoped<IDiseaseBO, DiseaseBO>();
 builder.Services.AddScoped<IUserBO, UserBO>();
+builder.Services.AddScoped<IMapBO, MapBO>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options => options.AddPolicy(name: policy, policy => { policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod(); }));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

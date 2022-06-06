@@ -48,6 +48,6 @@ public class UserController : ControllerBase
     {
         var response = _userBO.DeleteUser(userCredentials);
         if (!response) return NotFound();
-        return Ok(response);
+        return Ok();
     }
 }

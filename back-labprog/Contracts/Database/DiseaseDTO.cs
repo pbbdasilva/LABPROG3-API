@@ -10,7 +10,7 @@ public class DiseaseDTO
     public ObjectId? Id { get; set; }
     [BsonElement("name")]
     public string Name { get; set; }
-    [BsonElement("transmissivity")]
+    [BsonElement("rate")]
     public string Rate { get; set; }
     [BsonElement("description")]
     public string Description { get; set; }
