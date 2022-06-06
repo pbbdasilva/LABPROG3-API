@@ -34,4 +34,11 @@ public class UserController : ControllerBase
         var response = _userBO.Register(userCredentials);
         return Ok(response);
     }
+
+    [EnableCors]
+    [HttpGet("list")]
+    public IEnumerable<User> GetUsers()
+    {
+        return _userBO.GetUsers();
+    } 
 }

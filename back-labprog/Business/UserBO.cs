@@ -10,6 +10,7 @@ public interface IUserBO
     public User? VerifyLogin(User userCredentials);
     public bool VerifyMail(User userCredentials);
     public User Register(User userCredentials);
+    public IEnumerable<User> GetUsers();
 }
 
 public class UserBO : IUserBO
@@ -36,5 +37,11 @@ public class UserBO : IUserBO
         var collection = GetCollection();
         collection.InsertOne(userCredentials);
         return userCredentials;
+    }
+
+    public IEnumerable<User> GetUsers()
+    {
+        var collection = GetCollection();
+        return collection.AsQueryable().ToList().Select(u => u.ConvertToUser());
     }
 }
