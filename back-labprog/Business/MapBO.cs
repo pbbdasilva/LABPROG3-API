@@ -1,13 +1,16 @@
+using System.Text;
 using back_labprog.Contracts.Database;
 using back_labprog.Contracts.Frontend;
 using back_labprog.Services;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace back_labprog.Business;
 
 public interface IMapBO
 {
-    IEnumerable<DiseaseOccurrence> GetOccurrences(FilterRequest filter);
+    public IEnumerable<DiseaseOccurrence> GetOccurrences(FilterRequest filter);
+    public void UploadCsv(Stream ms);
 }
 
 public class MapBO : IMapBO
@@ -18,7 +21,43 @@ public class MapBO : IMapBO
     {
         var collection = GetCollection();
         return collection.AsQueryable().ToList()
-            .Where(x => filter.State.Contains(x.State) && filter.DiseaseName.Contains(x.Name))
+            .Where(x => filter.SelectedStates.Contains(x.State) && filter.SelectTedDiseases.Contains(x.Disease))
             .Select(x => x.ConvertToDiseaseOccurrence());
+    }
+    
+    public void UploadCsv(Stream ms)
+    {
+        var collection = GetCollection();
+        var occurenceList = ReadRawOccurrenceStream(ms);
+        collection.InsertMany(occurenceList);
+    }
+
+    private List<DiseaseOccurrenceDTO> ReadRawOccurrenceStream(Stream ms)
+    {
+        var occurenceList = new List<DiseaseOccurrenceDTO>();
+        using (var reader = new StreamReader(ms, Encoding.UTF8))
+        {
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                if (string.IsNullOrEmpty(line)) continue;
+                occurenceList.Add(ParseDiseaseOccurence(line));
+            }
+        }
+
+        return occurenceList;
+    }
+
+    private DiseaseOccurrenceDTO ParseDiseaseOccurence(string line)
+    {
+        var values = line.Split('\t');
+        return new DiseaseOccurrenceDTO
+        {
+            Id = ObjectId.GenerateNewId(),
+            State = values[0],
+            Latitude = float.Parse(values[3]),
+            Longitude = float.Parse(values[4]),
+            Disease = values[5]
+        };
     }
 }

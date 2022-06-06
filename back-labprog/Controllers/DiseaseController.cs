@@ -1,4 +1,6 @@
+using System.Text;
 using back_labprog.Business;
+using back_labprog.Contracts.Database;
 using back_labprog.Contracts.Frontend;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -47,5 +49,14 @@ public class DiseaseController : ControllerBase
     {
         var occurrences = _mapBO.GetOccurrences(filter);
         return occurrences;
+    }
+
+    [EnableCors]
+    [HttpPost("upload")]
+    public ActionResult UploadCsv()
+    {
+        if (Request.ContentType != "text/tab-separated-values") return BadRequest("File type not supported");
+        _mapBO.UploadCsv(Request.Body);
+        return Ok();
     }
 }
