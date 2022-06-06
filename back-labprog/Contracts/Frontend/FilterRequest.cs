@@ -4,8 +4,8 @@ namespace back_labprog.Contracts.Frontend;
 
 public class FilterRequest
 {
-    [BsonElement("state")]
-    public List<string> State { get; set; }
-    [BsonElement("disease")]
-    public List<string> DiseaseName { get; set; }
+    [BsonElement("selectedStates")]
+    public List<string> SelectedStates { get; set; }
+    [BsonElement("selectedDiseases")]
+    public List<string> SelectTedDiseases { get; set; }
 }
