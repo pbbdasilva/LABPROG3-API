@@ -7,5 +7,5 @@ public class FilterRequest
     [BsonElement("selectedStates")]
     public List<string> SelectedStates { get; set; }
     [BsonElement("selectedDiseases")]
-    public List<string> SelectTedDiseases { get; set; }
+    public List<string> SelectedDiseases { get; set; }
 }

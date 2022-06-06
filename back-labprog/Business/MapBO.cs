@@ -25,7 +25,7 @@ public class MapBO : IMapBO
     {
         var collection = GetCollection();
         return collection.AsQueryable().ToList()
-            .Where(x => filter.SelectedStates.Contains(x.State) && filter.SelectTedDiseases.Contains(x.Disease))
+            .Where(x => filter.SelectedStates.Contains(x.State) && filter.SelectedDiseases.Contains(x.Disease))
             .Select(x => x.ConvertToDiseaseOccurrence());
     }
     
