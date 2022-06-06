@@ -11,6 +11,7 @@ public interface IUserBO
     public bool VerifyMail(User userCredentials);
     public User Register(User userCredentials);
     public IEnumerable<User> GetUsers();
+    public bool DeleteUser(User userCredentials);
 }
 
 public class UserBO : IUserBO
@@ -43,5 +44,13 @@ public class UserBO : IUserBO
     {
         var collection = GetCollection();
         return collection.AsQueryable().ToList().Select(u => u.ConvertToUser());
+    }
+
+    public bool DeleteUser(User userCredentials)
+    {
+        var collection = GetCollection();
+        var filter = Builders<UserDTO>.Filter.Eq("email", userCredentials.Email);
+        var result = collection.DeleteOne(filter);
+        return result.DeletedCount > 0;
     }
 }

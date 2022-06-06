@@ -40,5 +40,14 @@ public class UserController : ControllerBase
     public IEnumerable<User> GetUsers()
     {
         return _userBO.GetUsers();
-    } 
+    }
+
+    [EnableCors]
+    [HttpPost("delete")]
+    public ActionResult DeleteUser([FromBody] User userCredentials)
+    {
+        var response = _userBO.DeleteUser(userCredentials);
+        if (response == null) return NotFound();
+        return Ok(response);
+    }
 }
