@@ -3,6 +3,7 @@ using back_labprog.Contracts.Database;
 using back_labprog.Contracts.Frontend;
 using back_labprog.Services;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 using MongoDB.Driver;
 
 namespace back_labprog.Business;
@@ -37,10 +38,13 @@ public class MapBO : IMapBO
         var occurenceList = new List<DiseaseOccurrenceDTO>();
         using (var reader = new StreamReader(ms, Encoding.UTF8))
         {
-            while (!reader.EndOfStream)
+            var line = reader.ReadLine();
+            if (line == null) return occurenceList;
+            
+            var uploadData = JsonConvert.DeserializeObject<UploadData>(line);
+            var rows = uploadData.Payload.Split('\n');
+            foreach (var row in rows)
             {
-                var line = reader.ReadLine();
-                if (string.IsNullOrEmpty(line)) continue;
                 occurenceList.Add(ParseDiseaseOccurence(line));
             }
         }
