@@ -18,6 +18,9 @@ public class MapBO : IMapBO
 {
     private IMongoCollection<DiseaseOccurrenceDTO> GetCollection() 
         => DatabaseConnector.GetCollection<DiseaseOccurrenceDTO>("labprog", "occurrences");
+
+    private IMongoCollection<GeoInfoDTO> GetGeoCollection()
+        => DatabaseConnector.GetCollection<GeoInfoDTO>("labprog", "occurences");
     public IEnumerable<DiseaseOccurrence> GetOccurrences(FilterRequest filter)
     {
         var collection = GetCollection();
@@ -35,6 +38,7 @@ public class MapBO : IMapBO
 
     private List<DiseaseOccurrenceDTO> ReadRawOccurrenceStream(Stream ms)
     {
+        var geoCollection = GetGeoCollection();
         var occurenceList = new List<DiseaseOccurrenceDTO>();
         using (var reader = new StreamReader(ms, Encoding.UTF8))
         {
@@ -45,7 +49,7 @@ public class MapBO : IMapBO
             var rows = uploadData.Payload.Split('\n');
             foreach (var row in rows)
             {
-                var ocurrence = ParseDiseaseOccurence(row);
+                var ocurrence = ParseDiseaseOccurence(row, geoCollection);
                 if (ocurrence != null) occurenceList.Add(ocurrence);
             }
         }
@@ -53,18 +57,23 @@ public class MapBO : IMapBO
         return occurenceList;
     }
 
-    private DiseaseOccurrenceDTO? ParseDiseaseOccurence(string line)
+    private DiseaseOccurrenceDTO? ParseDiseaseOccurence(string line, IMongoCollection<GeoInfoDTO> collection)
     {
         var values = line.Split('\t');
-        if (values.Count() < 7) return null;
-        values[6].Remove(values.Length - 1);
+        if (values.Count() < 5) return null;
+        
+        values[4] = values[4].Remove(values.Length - 1);
+        var ibge = values[2];
+        var data = collection.AsQueryable().FirstOrDefault(x => x.Ibge == ibge);
+
+        if (data == null) return null;
         return new DiseaseOccurrenceDTO
         {
             Id = ObjectId.GenerateNewId(),
             State = values[0],
-            Latitude = float.Parse(values[3]),
-            Longitude = float.Parse(values[4]),
-            Disease = values[5]
+            Latitude = data.Latitude,
+            Longitude = data.Longitude,
+            Disease = values[3]
         };
     }
 }
