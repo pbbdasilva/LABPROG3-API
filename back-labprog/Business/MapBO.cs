@@ -45,16 +45,19 @@ public class MapBO : IMapBO
             var rows = uploadData.Payload.Split('\n');
             foreach (var row in rows)
             {
-                occurenceList.Add(ParseDiseaseOccurence(line));
+                var ocurrence = ParseDiseaseOccurence(row);
+                if (ocurrence != null) occurenceList.Add(ocurrence);
             }
         }
 
         return occurenceList;
     }
 
-    private DiseaseOccurrenceDTO ParseDiseaseOccurence(string line)
+    private DiseaseOccurrenceDTO? ParseDiseaseOccurence(string line)
     {
         var values = line.Split('\t');
+        if (values.Count() < 7) return null;
+        values[6].Remove(values.Length - 1);
         return new DiseaseOccurrenceDTO
         {
             Id = ObjectId.GenerateNewId(),
