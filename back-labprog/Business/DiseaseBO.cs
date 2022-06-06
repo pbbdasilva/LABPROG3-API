@@ -9,6 +9,7 @@ public interface IDiseaseBO
 {
     public IEnumerable<Disease> GetDiseasesAsync();
     public void AddDisease(Disease newDisease);
+    public bool DeleteDisease(Disease disease);
 }
 
 public class DiseaseBO : IDiseaseBO
@@ -28,5 +29,13 @@ public class DiseaseBO : IDiseaseBO
         var result = await collection.CountDocumentsAsync(disease => disease.Name == newDisease.Name);
         
         if (result == 0) await collection.InsertOneAsync(newDisease);
+    }
+
+    public bool DeleteDisease(Disease disease)
+    {
+        var collection = GetCollection();
+        var filter = Builders<DiseaseDTO>.Filter.Eq("name", disease.Name);
+        var result = collection.DeleteOne(filter);
+        return result.DeletedCount > 0;
     }
 }

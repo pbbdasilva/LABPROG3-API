@@ -1,5 +1,6 @@
 using back_labprog.Business;
 using back_labprog.Contracts.Frontend;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_labprog.Controllers;
@@ -14,6 +15,7 @@ public class DiseaseController : ControllerBase
         _diseaseBO = diseaseBO;
     }
 
+    [EnableCors]
     [HttpPost("insert")]
     public ActionResult AddDisease([FromBody] Disease newDisease)
     {
@@ -21,9 +23,19 @@ public class DiseaseController : ControllerBase
         return Ok();
     }
     
+    [EnableCors]
     [HttpGet("list")]
     public IEnumerable<Disease> GetDiseases()
     {
         return _diseaseBO.GetDiseasesAsync();
+    }
+
+    [EnableCors]
+    [HttpPost("delete")]
+    public ActionResult DeleteDisease([FromBody] Disease disease)
+    {
+        var response = _diseaseBO.DeleteDisease(disease);
+        if (!response) return NotFound();
+        return Ok();
     }
 }
