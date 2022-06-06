@@ -47,7 +47,7 @@ public class UserController : ControllerBase
     public ActionResult DeleteUser([FromBody] User userCredentials)
     {
         var response = _userBO.DeleteUser(userCredentials);
-        if (response == null) return NotFound();
+        if (!response) return NotFound();
         return Ok(response);
     }
 }
