@@ -62,7 +62,7 @@ public class MapBO : IMapBO
         var values = line.Split('\t');
         if (values.Count() < 5) return null;
         
-        values[4] = values[4].Remove(values.Length - 1);
+        values[4] = values[4].Remove(values[4].Length - 1);
         var ibge = values[2];
         var data = collection.AsQueryable().FirstOrDefault(x => x.Ibge == ibge);
 
